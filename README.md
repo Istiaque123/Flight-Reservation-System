@@ -122,9 +122,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 📬 Contact
 
 Author:
-Email: your.email@example.com
-GitHub: github.com/
-Twitter: twitter.com/
+Email: istiaqueremon@gmial.com
+GitHub: https://github.com/Istiaque123
 
 Feel free to open an issue or reach out with questions or feedback!
 
