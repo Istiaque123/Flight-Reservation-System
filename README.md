@@ -1,55 +1,86 @@
 ✈️ Flight Reservation System
-An open-source platform for booking and managing flights with ease.
+A powerful, open-source Java application for seamless flight booking and management.
 
 
-📑 Table of Contents
+📋 Table of Contents
 
-About the Project
-Features
-Prerequisites
-Installation
-Usage
-Contributing
-License
-Contact
-Acknowledgements
+✨ About the Project
+🚀 Features
+🛠️ Tech Stack
+🏁 Getting Started
+🎮 Usage
+📸 Showcase
+🤝 Contributing
+📜 License
+📬 Contact
+❓ FAQ
+🌟 Acknowledgements
 
 
-🌟 About the Project
-The Flight Reservation System is a Java-based application designed to streamline flight bookings, cancellations, and management. It supports users in searching for direct and connecting flights, booking seats, and managing their reservations, while admins can add, modify, or remove flights and generate reports. Built with efficient data structures like AVL Trees for seat management and a CityTrie for city search, it’s perfect for learning about algorithms and system design or contributing to open-source aviation software.
-Why This Project?
+✨ About the Project
+The Flight Reservation System (FRS) is a robust Java-based application designed to simplify flight bookings, cancellations, and management. Whether you're a traveler searching for flights or an admin managing schedules, FRS offers a fast, efficient, and user-friendly experience without relying on a database. Built with advanced data structures like AVL Trees, Tries, and Graphs, it’s perfect for developers exploring system design or contributing to open-source aviation software.
+Why Choose FRS?
 
-Solves Real-World Problems: Simplifies flight booking with a user-friendly console interface.
-Educational: Demonstrates advanced data structures (AVL Tree, Trie, Graph) in a practical application.
-Open Source: Welcomes contributions to enhance features like GUI or database integration.
+Fast and Efficient: Optimized search and booking with O(log n) operations.
+Educational: Learn advanced algorithms (Dijkstra’s, AVL balancing) in a real-world context.
+Extensible: Ready for enhancements like a GUI or database integration.
+
 
 
 🚀 Features
 
-Flight Search: Find direct and connecting flights using a route graph and city prefix search.
-Booking Management: Book and cancel flights with seat selection (Economy/Business).
-Admin Tools: Add, modify, remove flights, and generate seat availability reports.
-Efficient Data Structures:
-AVL Tree for O(log n) seat management.
-CityTrie for fast city name autocompletion.
-Graph-based algorithm for finding connecting flights.
 
 
-User Authentication: Secure login and registration for passengers.
+Feature
+Description
 
 
 
-🛠️ Prerequisites
-Before you begin, ensure you have the following installed:
+🔍 Flight Search
+Find direct and connecting flights with city autocompletion using a Trie.
+
+
+🎟️ Booking System
+Book and cancel flights with dynamic seat allocation (Economy/Business).
+
+
+🛡️ Admin Panel
+Add, modify, or remove flights and generate seat reports.
+
+
+⚡ Efficient Data Structures
+AVL Tree for seats, Graph for routes, Priority Queue for sorting.
+
+
+🔐 User Authentication
+Secure login and registration for passengers.
+
+
+
+🛠️ Tech Stack
+
+Language: Java 8+
+Data Structures:
+Trie: Fast city name searches.
+AVL Tree: Balanced seat management.
+Graph: Route finding with Dijkstra’s algorithm.
+HashMap: Quick booking retrieval.
+Priority Queue: Flight sorting by departure time.
+
+
+Storage: In-memory (no external database).
+Environment: Console-based interface.
+
+
+🏁 Getting Started
+Prerequisites
 
 Java Development Kit (JDK): Version 8 or higher
 Git: To clone the repository
 IDE: IntelliJ IDEA, Eclipse, or VS Code (optional)
-Operating System: Windows, macOS, or Linux
+OS: Windows, macOS, or Linux
 
-
-📦 Installation
-Follow these steps to set up the project locally:
+Installation
 
 Clone the Repository:
 git clone https://github.com/<your-username>/<your-repo>.git
@@ -66,12 +97,12 @@ java Main
 
 
 
-Note: Ensure JDK is added to your system’s PATH. For detailed setup, refer to the Java Installation Guide.
+Tip: Ensure JDK is in your PATH. See Java Installation Guide for help.
 
 
 🎮 Usage
 
-Launch the Application:Run the program to access the main menu:
+Main Menu:Launch the app to see:
 === Flight Reservation System ===
 1. User Login
 2. Register
@@ -79,61 +110,106 @@ Launch the Application:Run the program to access the main menu:
 4. Exit
 
 
-User Actions:
+User Flow:
 
-Register with your details (name, email, password, etc.).
-Log in to search flights, book seats, cancel bookings, or view your bookings.
-Example: Search for flights from "New York" to "Los Angeles" on "2025-06-01".
+Register: Create an account with name, email, password, etc.
+Search Flights: Find direct or connecting flights by city and date.
+Book/Cancel: Reserve a seat or cancel a booking.
+View Bookings: See all your confirmed bookings.
 
 
-Admin Actions:
+Admin Flow:
 
 Log in with password admin123.
-Add, modify, or remove flights, or generate seat reports.
+Manage flights or generate seat reports.
 
 
 
-Demo:
-Sample Commands:
-# Search flights
+Demo GIF:
+
+📸 Showcase
+Sample Input/Output
+Search Flights:
 Enter Source City: New York
 Enter Destination City: Los Angeles
 Enter Date (yyyy-MM-dd): 2025-06-01
 
-# Book a flight
+Output:
+Direct Flights:
+American Airlines AA101: New York to Los Angeles | Dep: 2025-06-01T08:00 | Arr: 2025-06-01T11:00 | Available: 100/100 | Price: $200.00
+
+Connecting Flights:
+Connection: [AA103: New York to Chicago | Dep: 2025-06-01T07:00 | Arr: 2025-06-01T08:30,
+AA102: Chicago to Los Angeles | Dep: 2025-06-01T09:00 | Arr: 2025-06-01T11:30]
+
+Book a Flight:
 Enter Flight Number: AA101
 Enter Seat Class (ECONOMY/BUSINESS): ECONOMY
 
+Output:
+Booking successful: Booking ID: <uuid> | Flight: AA101 | Seat: 21
+Status: CONFIRMED | Payment: COMPLETED | Price: $200.00
+
+Admin Report:
+Enter Flight Number: AA101
+
+Output:
+Flight AA101: 1 seats booked, 99 seats available.
+
 
 🤝 Contributing
-Contributions are welcome! To contribute:
+We’d love your contributions! Here’s how to get started:
 
 Fork the repository.
-Create a new branch: git checkout -b feature/your-feature.
-Make your changes and commit: git commit -m "Add your feature".
+Create a branch: git checkout -b feature/your-feature.
+Commit changes: git commit -m "Add your feature".
 Push to the branch: git push origin feature/your-feature.
-Open a pull request on GitHub.
+Open a pull request.
 
-Please read CONTRIBUTING.md for details on our code of conduct and submission process.
+See CONTRIBUTING.md for guidelines and our code of conduct.
+Ideas for Contributions:
+
+Add a GUI (e.g., JavaFX, Swing).
+Integrate a database (e.g., SQLite).
+Enhance search with filters (price, airline).
+
 
 📜 License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. Feel free to use, modify, and distribute.
 
 📬 Contact
 
 Author:
 Email: istiaqueremon@gmial.com
-GitHub: https://github.com/Istiaque123
+GitHub: github.com/istiaque123
+Twitter/X: x.com/
 
-Feel free to open an issue or reach out with questions or feedback!
+Got questions? Open an issue or ping me on X!
 
-🙏 Acknowledgements
+❓ FAQ
+
+🔍 What is the default admin password?
+The admin password is admin123. You can modify it in the source code for security.
+
+
+
+🚀 Can I add a GUI?
+Yes! The system is modular, so you can integrate JavaFX or Swing. Check the Contributing section for ideas.
+
+
+
+📦 Does it support a database?
+Currently, it uses in-memory storage (HashMap, AVL Tree). You can contribute to add database support like MySQL or SQLite.
+
+
+
+🌟 Acknowledgements
 
 freeCodeCamp for README best practices.
-GitHub Docs for Markdown and profile README guidance.
-Shields.io for badge generation.
-Canva for creating project banners.
+GitHub Docs for Markdown and repository tips.
+Shields.io for awesome badges.
+Canva for creating stunning project visuals.
+Awesome README for inspiration.
 
 
-Star the repo if you find this project useful! 🌟 Let me know your feedback by opening an issue or sharing your README at github.com//.
-# Flight-Reservation-System
+⭐ Star this repo if you find it useful! Share your feedback or contribute to make FRS even better. Check out the project at github.com//. ✈️
