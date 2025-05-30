@@ -37,6 +37,7 @@ public class FlightDatabase {
         return flightByRoute.getOrDefault(routeKey, new ArrayList<>());
     }
 
+//    Add this if needed
     public ArrayList<Flight> getFlightsByDate(LocalDate date) {
         return flightByDate.getOrDefault(date, new ArrayList<>());
     }
