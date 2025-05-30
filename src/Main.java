@@ -18,21 +18,18 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class Main {
-
     private static FlightDatabase FLIGHT_DATABASE = new FlightDatabase();
     private static UserDatabase USER_DATABASE = new UserDatabase();
     private static CityTrie CITY_TRIE = new CityTrie();
     private static FlightRouteGraph ROUTE_GRAPH = new FlightRouteGraph();
     private static FlightSearchService FLIGHT_SEARCH_SERVICE = new FlightSearchService(FLIGHT_DATABASE, CITY_TRIE, ROUTE_GRAPH);
-
     private static BookingService BOOKING_SERVICE = new BookingService(FLIGHT_DATABASE, USER_DATABASE);
     private static AdminService ADMIN_SERVICE = new AdminService(FLIGHT_DATABASE, CITY_TRIE, ROUTE_GRAPH);
     private static Scanner sc = new Scanner(System.in);
 
-
     public static void main(String[] args) {
         initializeSampleData();
-        while (true){
+        while (true) {
             System.out.println("\n=== Flight Reservation System ===");
             System.out.println("1. User Login");
             System.out.println("2. Register");
@@ -43,7 +40,7 @@ public class Main {
             int choice = sc.nextInt();
             sc.nextLine();
 
-            switch (choice){
+            switch (choice) {
                 case 1:
                     userMenu();
                     break;
@@ -60,34 +57,27 @@ public class Main {
                     System.out.println("Invalid option. Try again.");
             }
         }
-
     }
 
-
     private static void initializeSampleData() {
-
-        // Sample cities
         CITY_TRIE.insert("New York");
         CITY_TRIE.insert("Los Angeles");
         CITY_TRIE.insert("Chicago");
         CITY_TRIE.insert("Miami");
 
-        // Sample routes
         ROUTE_GRAPH.addRoute("New York", "Los Angeles", 1);
         ROUTE_GRAPH.addRoute("New York", "Chicago", 1);
         ROUTE_GRAPH.addRoute("Chicago", "Los Angeles", 1);
         ROUTE_GRAPH.addRoute("Miami", "New York", 1);
 
-        // Sample flights
         ADMIN_SERVICE.addFlight("AA101", "American Airlines", "New York", "Los Angeles",
                 LocalDateTime.of(2025, 6, 1, 8, 0), LocalDateTime.of(2025, 6, 1, 11, 0), 100, 200.0);
         ADMIN_SERVICE.addFlight("AA102", "American Airlines", "Chicago", "Los Angeles",
                 LocalDateTime.of(2025, 6, 1, 9, 0), LocalDateTime.of(2025, 6, 1, 11, 30), 80, 180.0);
         ADMIN_SERVICE.addFlight("AA103", "American Airlines", "New York", "Chicago",
                 LocalDateTime.of(2025, 6, 1, 7, 0), LocalDateTime.of(2025, 6, 1, 8, 30), 120, 150.0);
-
-
-
+        ADMIN_SERVICE.addFlight("AA104", "American Airlines", "Miami", "New York",
+                LocalDateTime.of(2025, 6, 1, 10, 0), LocalDateTime.of(2025, 6, 1, 12, 0), 150, 170.0);
     }
 
     private static void registerUser() {
@@ -130,7 +120,8 @@ public class Main {
             System.out.println("2. Book Flight");
             System.out.println("3. Cancel Booking");
             System.out.println("4. View Bookings");
-            System.out.println("5. Logout");
+            System.out.println("5. View Flight and Route Details");
+            System.out.println("6. Logout");
             System.out.print("Choose an option: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -149,12 +140,14 @@ public class Main {
                     viewBookings(passenger);
                     break;
                 case 5:
+                    viewFlightAndRouteDetails();
+                    break;
+                case 6:
                     return;
                 default:
                     System.out.println("Invalid option. Try again.");
             }
         }
-
     }
 
     private static void searchFlights() {
@@ -226,7 +219,9 @@ public class Main {
             System.out.println("2. Modify Flight");
             System.out.println("3. Remove Flight");
             System.out.println("4. Generate Seat Report");
-            System.out.println("5. Logout");
+            System.out.println("5. View All Flights");
+            System.out.println("6. View Flight and Route Details");
+            System.out.println("7. Logout");
             System.out.print("Choose an option: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -245,6 +240,12 @@ public class Main {
                     generateSeatReport();
                     break;
                 case 5:
+                    ADMIN_SERVICE.viewAllFlights();
+                    break;
+                case 6:
+                    viewFlightAndRouteDetails();
+                    break;
+                case 7:
                     return;
                 default:
                     System.out.println("Invalid option. Try again.");
@@ -302,10 +303,47 @@ public class Main {
             System.out.println("Flight removal failed.");
         }
     }
+
     private static void generateSeatReport() {
         System.out.print("Enter Flight Number: ");
         String flightNumber = sc.nextLine();
         System.out.println(ADMIN_SERVICE.generateSeatReport(flightNumber));
     }
 
+    private static void viewFlightAndRouteDetails() {
+        System.out.println("\n=== View Flight and Route Details ===");
+        System.out.println("1. View Flight Details");
+        System.out.println("2. View All Routes");
+        System.out.print("Choose an option: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter Flight Number: ");
+                String flightNumber = sc.nextLine();
+                System.out.println(FLIGHT_SEARCH_SERVICE.getFlightDetails(flightNumber));
+                break;
+            case 2:
+                System.out.print("Enter Source City (or prefix): ");
+                String sourcePrefix = sc.nextLine();
+                System.out.println("Suggested cities: " + FLIGHT_SEARCH_SERVICE.suggestCities(sourcePrefix));
+                System.out.print("Enter Source City: ");
+                String source = sc.nextLine();
+                System.out.print("Enter Destination City: ");
+                String destination = sc.nextLine();
+                ArrayList<ArrayList<String>> routes = ROUTE_GRAPH.getAllRoutes(source, destination);
+                if (routes.isEmpty()) {
+                    System.out.println("No routes found between " + source + " and " + destination);
+                } else {
+                    System.out.println("\nAll Possible Routes:");
+                    for (int i = 0; i < routes.size(); i++) {
+                        System.out.println("Route " + (i + 1) + ": " + routes.get(i));
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid option. Try again.");
+        }
+    }
 }

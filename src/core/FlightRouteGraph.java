@@ -3,23 +3,20 @@ package core;
 import java.util.*;
 
 public class FlightRouteGraph {
+    private final HashMap<String, HashMap<String, Integer>> adjacencyListMap;
 
-    private HashMap<String, HashMap<String, Integer>> adjacencyListMap;
-
-    public FlightRouteGraph(){
+    public FlightRouteGraph() {
         adjacencyListMap = new HashMap<>();
     }
 
-    public void addRoute(String source, String destination, int distance){
+    public void addRoute(String source, String destination, int distance) {
         adjacencyListMap.putIfAbsent(source, new HashMap<>());
         adjacencyListMap.get(source).put(destination, distance);
-
-//        for undirected graph
         adjacencyListMap.putIfAbsent(destination, new HashMap<>());
         adjacencyListMap.get(destination).put(source, distance);
     }
 
-    public ArrayList<String> getShortestPaths(String source, String destination){
+    public ArrayList<String> getShortestPaths(String source, String destination) {
         HashMap<String, Integer> distance = new HashMap<>();
         HashMap<String, String> previous = new HashMap<>();
         PriorityQueue<Node> minHeap = new PriorityQueue<>(
@@ -54,14 +51,41 @@ public class FlightRouteGraph {
 
         ArrayList<String> path = new ArrayList<>();
         String current = destination;
-        while (current != null){
+        while (current != null) {
             path.add(current);
             current = previous.get(current);
         }
         Collections.reverse(path);
+        return path.size() >= 2 && path.get(0).equals(source) ? path : new ArrayList<>();
+    }
 
-         return path.size() >= 2 && path.get(0).equals(source) ? path : new ArrayList<>();
+    // New method to find all possible routes
+    public ArrayList<ArrayList<String>> getAllRoutes(String source, String destination) {
+        ArrayList<ArrayList<String>> allRoutes = new ArrayList<>();
+        ArrayList<String> currentRoute = new ArrayList<>();
+        HashSet<String> visited = new HashSet<>();
+        currentRoute.add(source);
+        findAllRoutesDFS(source, destination, visited, currentRoute, allRoutes);
+        return allRoutes;
+    }
 
+    private void findAllRoutesDFS(String current, String destination, HashSet<String> visited,
+                                  ArrayList<String> currentRoute, ArrayList<ArrayList<String>> allRoutes) {
+        if (current.equals(destination)) {
+            allRoutes.add(new ArrayList<>(currentRoute));
+            return;
+        }
+
+        visited.add(current);
+        HashMap<String, Integer> neighbors = adjacencyListMap.getOrDefault(current, new HashMap<>());
+        for (String neighbor : neighbors.keySet()) {
+            if (!visited.contains(neighbor)) {
+                currentRoute.add(neighbor);
+                findAllRoutesDFS(neighbor, destination, visited, currentRoute, allRoutes);
+                currentRoute.removeLast();
+            }
+        }
+        visited.remove(current);
     }
 
     private static class Node {
